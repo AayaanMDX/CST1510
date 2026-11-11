@@ -9,12 +9,6 @@ Date  : 00/11/2026
 Run it:   python template.py
 """
 
-# =================================================================== FUNCTIONS
-# 1. Bring back check_record(value, limit) and print_report(...) from Week 3
-#    (copy them, or rewrite them - either is fine). check_record returns
-#    difference, percent and status. print_report does all of the printing,
-#    nothing outside it should contain a print() of its own. Give each a
-#    one-line docstring.
 
 OL_count = 0 
     
@@ -57,18 +51,6 @@ def record_entry():
     loaded_rows = float(input("Enter amount of rows loaded :"))    
     exp_rows = float(input("Enter the expected amount of rows :"))
     return label, loaded_rows, exp_rows 
-
-# ====================================================================== STORE
-# 2. Get your records into a list of dicts, each shaped like:
-#        {"label": ..., "value": ..., "limit": ...}
-#
-#    Threshold : write the list directly in the code - at least 3 records.
-#    Typical   : instead, write a function load_records(path) that reads
-#                label,value,limit lines from a file and returns the list.
-#                Make your own data file, one record per line.
-#    Excellent : also write the results out to a new file (one line per
-#                record: label, status), as well as printing them.
-
   
 def load_records(path):
     '''The function reads the following file and returns a list'''
@@ -84,12 +66,7 @@ def load_records(path):
         return records
 
 
-records = load_records("/Users/i.taqdees/Desktop/CST1510/Week 04 - Lists, Dictionaries and Files/03 - Files/temp_file.txt")
-# =============================================================== PROCESS + OUTPUT
-# 3. Loop over records. For each one, call check_record and print_report.
-#
-#    Excellent : also keep a running count of how many were OVER LIMIT, and
-#                print that once, after the loop ends.
+records = load_records("/Users/i.taqdees/Documents/CST1510/Week 04 - Lists, Dictionaries and Files/03 - Files/temp_file.txt")
 
 while True:
     rec = record_entry()
@@ -102,13 +79,18 @@ for record in records:
     
     if status == "OVER LIMIT":
         OL_count += 1
-    
+
+print("-" * 40)
+
+with open("/Users/i.taqdees/Documents/CST1510/Week 04 - Lists, Dictionaries and Files/LAB/results.txt") as f:
+    text = f.read()
+    print(text)
+
+print("-" * 40)
+
+
 print(f"{len(records)} records checked.\n{OL_count} record(s) have \'OVER LIMIT\' as current status.\nReport check successful.")
 
-# ==========================================================================
-# 4. Before you finish:
-#
-#    [ ] Run it and check every record's numbers are correct by hand
-#    [ ] If you are loading from a file, check what happens when the file
-#        does not exist - write the error down
-#    [ ] Check every function still does one job
+print("-" * 40)
+
+
