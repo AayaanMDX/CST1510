@@ -2,50 +2,29 @@
 RECORD CHECK  -  my version
 ===========================
 
-Name  :
-Lane  :  AI / Cyber / IT      (delete two)
-Date  :
+Name  :  Aayaan imtiaz
+Lane  :  AI 
+Date  :  10/11/2026
 
 Run it:   python template.py
-
-Work through the numbered sections in order. Each one tells you what it must do.
-Delete these instructions as you replace them with your code.
 """
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
-# ==================================================================== LOAD
-# 1. Read your data file with pd.read_csv(). Make your own CSV, header row
-#    plus at least 5 data rows: label,value,limit (or your lane's own field
-#    names - same shape, different words).
+df = pd.read_csv("/Users/i.taqdees/Documents/CST1510/Week 06 - Pandas/LAB/week6.csv")
 
-df = None   # replace with pd.read_csv("your_file.csv")
-
-
-# ================================================================= PROCESS
-# 2. Add a "percent" column: (value / limit) * 100.
-#
-#    Typical and above: also add a "status" column using .apply() with a
-#    lambda - "OVER LIMIT" (100%+), "WARNING" (90%+), otherwise "OK".
-
-# your column(s) go here
-
-
-# ================================================================== OUTPUT
-# 3. Print the DataFrame.
-#
-#    Threshold : print it as-is, with the percent column.
-#    Typical   : also filter to show only the rows that are not "OK", using a
-#                boolean condition in [] - not a loop.
-#    Excellent : also group by "status" and print a count per group, save
-#                the full DataFrame to a new CSV with .to_csv(), and save
-#                one bar chart of the counts per status.
+df["percent"] = (df["value"] / df["limit"]) * 100
+df["status"] = df["percent"].apply(lambda p: "OVERLIMIT" if p >= 100.0 else "WARNING" if p >= 90.0 else "OK")
 
 print(df)
+print("-" * 50)
 
+print(df[df["status"] != "OK"])
+print("-" * 50)
 
-# ==========================================================================
-# 4. Before you finish:
-#    [ ] Run it and check the percent/status columns by hand for one row
-#    [ ] Check you used & (not "and") if you combined more than one condition
-#    [ ] Check every column your code refers to actually exists - watch case
+grouped = df["status"].value_counts()
+grouped.to_csv("/Users/i.taqdees/Documents/CST1510/Week 06 - Pandas/LAB/status_bar.csv")
+grouped.plot(kind="bar", title= "counts per status")
+plt.tight_layout()
+plt.show()
