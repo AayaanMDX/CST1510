@@ -21,8 +21,29 @@ Delete these instructions as you replace them with your code.
 #    (e.g. OVER LIMIT / WARNING / OK, or FLAGGED / OK). Give both a
 #    one-line docstring.
 
-# your function(s) go here
+def parse_line(raw_line):
+    """converts messy lines into clean lines in a dict."""
+    line = raw_line.strip()
+    hostname_part, rest = line.split(",", 1)
+    hostname = hostname_part.strip().lower()
 
+    fields = {}
+    for piece in rest.split(","):
+        key, value = piece.split("=")
+        fields[key.strip().lower()] = float(value.strip())
+        
+    return {"hostname": hostname, "used": fields["used"], "total": fields["total"]}
+
+
+def status_of(used, total, warning_at=90):
+    """returns the status of the record"""
+    percent = (used / total) * 100
+    if percent >= 100:
+        return "OVER LIMIT"
+    elif percent >= warning_at:
+        return "WARNING"
+    else:
+        return "OK"
 
 # ====================================================================== INPUT
 # 2. Your raw, messy records - at least 5, deliberately varied in spacing
@@ -35,7 +56,10 @@ Delete these instructions as you replace them with your code.
 #    Excellent: save these lines to a file and load them with open() /
 #    a for loop over the file, instead of writing them directly here.
 
-raw_records = []   # replace with your code
+raw_records = ["  Survey_2026 , rating=4 , age=23  \n"
+               " survey_2025,   Rating = 8 , Age = 22 \n"
+               " SURVEY_2024 , RATING = 6, AGE = 21. \n" ]   
+
 
 
 # =============================================================== PROCESS + OUTPUT
